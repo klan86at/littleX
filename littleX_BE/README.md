@@ -1,4 +1,4 @@
-This directory contains files of littleX backend
+# This directory contains files of littleX backend
 
 ## How to run the backend server
 ```bash
