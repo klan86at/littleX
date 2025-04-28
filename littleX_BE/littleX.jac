@@ -34,7 +34,7 @@ node Profile {
 
     can follow with follow_request entry {
         current_profile = [root-->(`?Profile)];
-        current_profile[0] +:Follow():+> self;
+        current_profile[0] +>:Follow():+> self;
         report self;
     }
 
@@ -71,13 +71,13 @@ node Tweet {
 
     can like_tweet with like_tweet entry {
         current_profile = [root-->(`?Profile)];
-        self +:Like():+> current_profile[0];
+        self +>:Like():+> current_profile[0];
         report self;
     }
 
     can remove_like with remove_like entry {
         current_profile = [root-->(`?Profile)];
-        like_edge = [edge self -:Like:-> current_profile[0]];
+        like_edge = [edge self ->:Like:-> current_profile[0]];
         Jac.destroy(like_edge[0]);
         report self;
     }
@@ -92,11 +92,11 @@ node Tweet {
 
     can get_info()-> TweetInfo {
         return TweetInfo(
-            username=[self<-:Post:-][0].username,
+            username=[self<-:Post:<-][0].username,
             id=jid(self),
             content=self.content,
             embedding=self.embedding,
-            likes=[i.username for i in [self-:Like:->]],
+            likes=[i.username for i in [self->:Like:->]],
             comments=[{"username": [i<--(`?Profile)][0].username, "id": jid(i), "content": i.content} for i in [self-->(`?Comment)]]
         );
     }
@@ -169,7 +169,7 @@ walker create_tweet :visit_profile: {
 
     can tweet with Profile entry {
         embedding = sentence_transformer.encode(self.content).tolist();
-        tweet_node = here +:Post:+> Tweet(content=self.content, embedding=embedding);
+        tweet_node = here +>:Post:+> Tweet(content=self.content, embedding=embedding);
         Jac.unrestrict(tweet_node[0], level="CONNECT");
         report tweet_node;
     }
@@ -201,7 +201,7 @@ walker load_feed :visit_profile: {
 
     can load with Profile entry {
         visit [-->(`?Tweet)];
-        for user_node in [-:Follow:->](`?Profile) {
+        for user_node in [->:Follow:->](`?Profile) {
             visit [user_node-->(`?Tweet)];
         }
         report self.results;
