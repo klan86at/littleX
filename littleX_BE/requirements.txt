@@ -1,6 +1,6 @@
 #mtllm
 jaclang==0.7.34
-jac-cloud==0.6.1
+jac-cloud
 openai
 #ollama
 pillow
