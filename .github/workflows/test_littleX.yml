@@ -26,12 +26,10 @@ jobs:
       - name: Install Jaclang
         run: |
           python -m pip install --upgrade pip
-          pip install jac-cloud 0.1.24 # Install Jaclang Cloud if needed
-          #pip install jaclang~= 0.7.34  # Install Jaclang
-          # If you have a requirements.txt or other dependencies, install them here
+          python -m venv venv
+          source venv/bin/activate
+          pip install jac-cloud==0.1.24
           pip install -r littleX_BE/requirements.txt
-          # Add any additional dependencies required for your tests
-          # e.g., pip install pytest (if using pytest for Jaclang tests)
 
       # Run Jaclang test cases
       - name: Run Jaclang Tests
