@@ -1,0 +1,48 @@
+name: Jaclang CI
+
+# Trigger the workflow on push or pull request events
+on:
+  push:
+    branches: [ main ] # Adjust branch names as needed (e.g., main, master)
+  pull_request:
+    branches: [ main ] # Adjust branch names as needed
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Python (Jaclang is Python-based)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Use a Python version compatible with Jaclang
+
+      # Install Jaclang and dependencies
+      - name: Install Jaclang
+        run: |
+          python -m pip install --upgrade pip
+          pip install jaclang  # Install Jaclang
+          pip install jac-cloud  # Install Jaclang Cloud if needed
+          # If you have a requirements.txt or other dependencies, install them here
+          pip install -r requirements.txt
+          # Add any additional dependencies required for your tests
+          # e.g., pip install pytest (if using pytest for Jaclang tests)
+
+      # Run Jaclang test cases
+      - name: Run Jaclang Tests
+        run: |
+          jac test  # Replace with the actual command to run your Jaclang tests
+          # Example: jac test my_tests.jac
+          # If tests are in a specific directory or use a custom runner:
+          # python -m unittest discover -s tests/
+          # or: pytest tests/
+
+      # Optional: Fail the workflow if tests fail
+      - name: Check test results
+        if: failure()
+        run: echo "Tests failed. Please check the test output above."
