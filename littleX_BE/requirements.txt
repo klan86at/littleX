@@ -1,6 +1,6 @@
 #mtllm
-jaclang
-jac-cloud
+#jaclang
+#jac-cloud
 openai
 #ollama
 pillow
