@@ -1,5 +1,5 @@
 #mtllm
-jaclang==0.7.34
+jaclang
 jac-cloud
 openai
 #ollama
