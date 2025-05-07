@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Use a Python version compatible with Jaclang
+          python-version: '3.11' # Use a Python version compatible with Jaclang
 
       # Install Jaclang and dependencies
       - name: Install Jaclang
