@@ -36,7 +36,7 @@ jobs:
       - name: Run Jaclang Tests
         run: |
           source venv/bin/activate
-          jac test $(cat .github/test_files.txt)
+          jac test $(cat test_files.txt)
           # jac test  # Replace with the actual command to run your Jaclang tests
           # Example: jac test my_tests.jac
           # If tests are in a specific directory or use a custom runner:
