@@ -35,9 +35,7 @@ jobs:
           pip install -e .
           cd ../jac-mtllm
           pip install -e .
-          # pip install mtllm
-          cd ../../littleX
-          pip install -r littleX_BE/requirements.txt
+          pip install -r ../../littleX_BE/requirements.txt
 
       # Run Jaclang test cases
       - name: Run Jaclang Tests
