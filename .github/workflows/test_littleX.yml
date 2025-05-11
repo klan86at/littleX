@@ -29,7 +29,9 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           git clone https://github.com/Jaseci-Labs/jaseci.git
-          cd jaseci/jac-cloud
+          cd jaseci/jaclang
+          pip install -e .
+          cd ../jac-cloud
           pip install -e .
           cd ../jac-mtllm
           pip install -e .
