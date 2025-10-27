@@ -1,5 +1,5 @@
 {
-  "name": "./",
+  "name": "littlex-fe",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -37,7 +37,6 @@
     "@radix-ui/react-toggle": "^1.1.1",
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.2.6",
-    "@react-navigation/native": "^7.0.19",
     "@reduxjs/toolkit": "latest",
     "@testing-library/dom": "latest",
     "autoprefixer": "^10.4.20",
@@ -66,7 +65,8 @@
     "zod": "latest"
   },
   "devDependencies": {
-    "@types/node": "^22",
+    "@types/aria-query": "^5.0.4",
+    "@types/node": "^22.18.12",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",

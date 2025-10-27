@@ -1,14 +1,16 @@
-import:py os;
-import:py logging;
-import:py datetime;
-import:py from jac_cloud.core.architype { NodeAnchor }
-import:py from mtllm.llms { OpenAI }
+import os;
+import logging;
+import datetime;
+# import from jac_cloud.core.architype { NodeAnchor }
+import from byllm.llm { Model }
+
+glob llm = Model(model_name="groq/llama-3.1-8b-instant");
 
 with entry {
     os.environ["OPEN_API_KEY"] = "PUT KEY HERE";
 }
 
-glob logger = logging.getLogger("littelX");
+glob logger = logging.getLogger("littleX");
 
 # Define nodes
 
@@ -26,8 +28,18 @@ glob logger = logging.getLogger("littelX");
 
 ### DO NOT MODIFY BELOW THIS LINE
 ### Boilerplate code for littleX ###
+walker visit_profile {
+    can visit_profile with `root entry {
+        visit [-->(`?Profile)] else {
+            new_profile = here ++> Profile();
+            grant(new_profile[0], level=ConnectPerm);
+            visit new_profile;
+        }
+    }
+}
 
-walker update_profile :visit_profile: {
+
+walker update_profile (visit_profile) {
     has new_username: str;
 
     can update_profile with profile entry {
@@ -36,7 +48,7 @@ walker update_profile :visit_profile: {
     }
 }
 
-walker get_profile :visit_profile: {
+walker get_profile (visit_profile) {
     can get_profile with profile entry {
         report here;
     }
@@ -59,18 +71,16 @@ walker load_user_profiles {
 }
 
 
-walker un_follow_request :visit_profile: {
-    has profile_id: str;
-
-    can un_follow with profile entry {
-        here.followees.remove(self.profile_id);
-        logger.info(f"Followe removed: {self.profile_id}");
-        here del-:follow:-> &self.profile_id;
-        report here;
+walker un_follow_request {
+    can un_follow_request with Profile entry {
+        current_profile = [root --> (`?Profile)];
+        follow_edge = [edge current_profile[0] ->:Follow:-> self];
+        del follow_edge[0];  # Proper deletion of the Follow edge
+        report self;
     }
 }
 
-walker update_tweet :visit_profile: {
+walker update_tweet (visit_profile) {
     has tweet_id: str;
     has updated_content: str;
 
@@ -86,7 +96,7 @@ walker update_tweet :visit_profile: {
     }
 }
 
-walker remove_tweet :visit_profile: {
+walker remove_tweet (visit_profile) {
     has tweet_id: str;
 
     can remove_tweet with profile entry {
